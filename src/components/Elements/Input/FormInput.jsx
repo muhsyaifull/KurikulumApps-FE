@@ -1,30 +1,30 @@
-import React from 'react';
-import { Form, Input, Button } from 'antd';
+import React from "react";
+import { Form, Input, Button } from "antd";
 
 const FormInput = ({ onSubmit, form }) => {
+  const handleFinish = (values) => {
+    onSubmit(values);
+  };
+
   return (
-    <Form form={form} layout="inline" onFinish={onSubmit} style={{ marginBottom: 16 }}>
-      <Form.Item
-        name="profilLulusan"
-        rules={[{ required: true, message: 'Profil Lulusan wajib diisi' }]}
-      >
-        <Input placeholder="Profil Lulusan" />
+    <Form form={form} onFinish={handleFinish} layout="inline">
+      <Form.Item name="profilLulusan" label="Profil Lulusan" rules={[{ required: true }]}>
+        <Input placeholder="Masukkan Profil Lulusan" />
       </Form.Item>
-      <Form.Item
-        name="kualifikasi"
-        rules={[{ required: true, message: 'Kualifikasi wajib diisi' }]}
-      >
-        <Input placeholder="Kualifikasi" />
+
+      <Form.Item name="kualifikasi" label="Kualifikasi" rules={[{ required: true }]}>
+        <Input placeholder="Masukkan Kualifikasi" />
       </Form.Item>
-      <Form.Item
-        name="kategori"
-        rules={[{ required: true, message: 'Kategori wajib diisi' }]}
-      >
-        <Input placeholder="Kategori" />
+
+      <Form.Item name="kategori" label="Kategori" rules={[{ required: true }]}>
+        <Input placeholder="Masukkan Kategori" />
       </Form.Item>
-      <Button type="primary" htmlType="submit">
-        Tambah Data
-      </Button>
+
+      <Form.Item>
+        <Button type="primary" htmlType="submit">
+          Tambah Data
+        </Button>
+      </Form.Item>
     </Form>
   );
 };

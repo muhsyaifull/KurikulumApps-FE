@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Layout, Button, theme } from "antd"; 
-import { useNavigate } from "react-router-dom"; 
+import { Layout, theme } from "antd";
 import Sidebar from "../components/Elements/Sidebar/Index";
 import Navbar from "../components/Elements/Navbar/Index";
 import Breadcrumbs from "../components/Elements/Breadcrumps";
@@ -10,14 +9,9 @@ const { Content, Sider } = Layout;
 
 const Dashboard = () => {
   const [collapsed, setCollapsed] = useState(false);
-  const navigate = useNavigate(); 
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
-
-  const data = [
-    { },
-  ];
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -50,8 +44,8 @@ const Dashboard = () => {
               borderRadius: borderRadiusLG,
             }}
           >
-            {/* Tabel */}
-            <TableContent data={data} />
+            {/* Table */}
+            <TableContent />
           </Content>
         </Layout>
       </Layout>

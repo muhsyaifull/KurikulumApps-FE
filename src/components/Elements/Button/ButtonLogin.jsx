@@ -1,10 +1,16 @@
 import React from "react";
-import { Button } from "antd";
+import { Button, Spin } from "antd";
 
-const ButtonLogin = ({ onClick, loading = false }) => {
+const ButtonLogin = ({ onClick, loading }) => {
   return (
-    <Button type="primary" onClick={onClick} loading={loading} block>
-      Login
+    <Button
+      type="primary"
+      htmlType="submit"
+      onClick={onClick}
+      style={{ width: "100%" }}
+      disabled={loading}
+    >
+      {loading ? <Spin size="small" /> : "Login"}
     </Button>
   );
 };

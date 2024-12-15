@@ -1,33 +1,81 @@
-import React, { useState } from 'react';
-import { Table, Form } from 'antd';
-import FormInput from '../Input/FormInput';
-import KompetensiField from '../Input/KomptensiField';
-import ButtonActions from '../Button/ButtonAction';
+import React, { useState, useEffect } from "react";
+import { Table, Form, Button } from "antd";
+import FormInput from "../Input/FormInput";
+import KompetensiField from "../Input/KompetensiField";
+import ButtonActions from "../Button/ButtonAction";
 
 const { Column } = Table;
 
 const TableContent = () => {
   const [data, setData] = useState([]);
-  const [editingKey, setEditingKey] = useState('');
+  const [editingKey, setEditingKey] = useState("");
   const [form] = Form.useForm();
 
-  const addRow = (values) => {
-    const newRow = {
-      key: Date.now(),
-      ...values,
-      kompetensiKerja: [],
-    };
-    setData([...data, newRow]);
-    form.resetFields();
+  const API_URL = "https://api.example.com/tables"; // Ganti URL API sesuai kebutuhan
+
+  // Ambil data dari API saat komponen dimuat
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(API_URL);
+      const result = await response.json();
+      setData(result.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
-  const deleteRow = (key) => setData(data.filter((item) => item.key !== key));
+  const addRow = async (values) => {
+    try {
+      const response = await fetch(API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      });
 
-  const editRow = (key) => setEditingKey(key);
-  const saveRow = (key) => {
-    form.validateFields().then((row) => {
-      setData(data.map((item) => (item.key === key ? { ...item, ...row } : item)));
-      setEditingKey('');
+      if (response.ok) {
+        const newRow = await response.json();
+        setData([newRow, ...data]);
+        form.resetFields();
+      }
+    } catch (error) {
+      console.error("Error adding row:", error);
+    }
+  };
+
+  const deleteRow = async (key) => {
+    try {
+      const response = await fetch(`${API_URL}/${key}`, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        setData(data.filter((item) => item.key !== key));
+      }
+    } catch (error) {
+      console.error("Error deleting row:", error);
+    }
+  };
+
+  const saveRow = async (key) => {
+    form.validateFields().then(async (row) => {
+      try {
+        const response = await fetch(`${API_URL}/${key}`, {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(row),
+        });
+
+        if (response.ok) {
+          setData(data.map((item) => (item.key === key ? { ...item, ...row } : item)));
+          setEditingKey("");
+        }
+      } catch (error) {
+        console.error("Error updating row:", error);
+      }
     });
   };
 
@@ -35,7 +83,7 @@ const TableContent = () => {
     setData(
       data.map((item) =>
         item.key === key
-          ? { ...item, kompetensiKerja: [...item.kompetensiKerja, { id: Date.now(), value: '' }] }
+          ? { ...item, kompetensiKerja: [...(item.kompetensiKerja || []), { id: Date.now(), value: "" }] }
           : item
       )
     );
@@ -43,47 +91,21 @@ const TableContent = () => {
 
   return (
     <div>
+      {/* Form Input */}
       <FormInput onSubmit={addRow} form={form} />
 
+      {/* Tabel */}
       <Table dataSource={data} rowKey="key" pagination={false}>
-        <Column
-          title="Profil Lulusan"
-          dataIndex="profilLulusan"
-          render={(text, record) =>
-            editingKey === record.key ? <Form.Item name="profilLulusan"><input defaultValue={text} /></Form.Item> : text
-          }
-        />
+        <Column title="Profil Lulusan" dataIndex="profilLulusan" />
         <Column title="Kualifikasi" dataIndex="kualifikasi" />
         <Column title="Kategori" dataIndex="kategori" />
         <Column
           title="Kompetensi Kerja"
           render={(text, record) => (
             <KompetensiField
-              kompetensi={record.kompetensiKerja}
-              onChange={(id, value) =>
-                setData(
-                  data.map((item) =>
-                    item.key === record.key
-                      ? {
-                          ...item,
-                          kompetensiKerja: item.kompetensiKerja.map((k) =>
-                            k.id === id ? { ...k, value } : k
-                          ),
-                        }
-                      : item
-                  )
-                )
-              }
-              onRemove={(id) =>
-                setData(
-                  data.map((item) =>
-                    item.key === record.key
-                      ? { ...item, kompetensiKerja: item.kompetensiKerja.filter((k) => k.id !== id) }
-                      : item
-                  )
-                )
-              }
+              kompetensi={record.kompetensiKerja || []}
               onAdd={() => addKompetensi(record.key)}
+              onRemove={() => console.log("Remove kompetensi")} // Tambahkan logika tambahan jika dibutuhkan
             />
           )}
         />
@@ -92,9 +114,9 @@ const TableContent = () => {
           render={(text, record) => (
             <ButtonActions
               isEditing={editingKey === record.key}
-              onEdit={() => editRow(record.key)}
+              onEdit={() => setEditingKey(record.key)}
               onSave={() => saveRow(record.key)}
-              onCancel={() => setEditingKey('')}
+              onCancel={() => setEditingKey("")}
               onDelete={() => deleteRow(record.key)}
             />
           )}

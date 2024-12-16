@@ -8,49 +8,34 @@ import TableContent from "../components/Elements/Table/Index";
 const { Content, Sider } = Layout;
 
 const Dashboard = () => {
-  const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+	const [collapsed, setCollapsed] = useState(false);
+	const {
+		token: { colorBgContainer, borderRadiusLG },
+	} = theme.useToken();
 
-  return (
-    <Layout style={{ minHeight: "100vh" }}>
-      {/* Sidebar */}
-      <Sider trigger={null} collapsible collapsed={collapsed}>
-        <Sidebar collapsed={collapsed} />
-      </Sider>
+	return (
+		<Layout style={{ minHeight: "100vh" }}>
+			{/* Sidebar */}
+			<Sider trigger={null} collapsible collapsed={collapsed}>
+				<Sidebar collapsed={collapsed} />
+			</Sider>
 
-      <Layout>
-        {/* Navbar */}
-        <Navbar collapsed={collapsed} setCollapsed={setCollapsed} />
+			<Layout>
+				{/* Navbar */}
+				<Navbar collapsed={collapsed} setCollapsed={setCollapsed} />
 
-        <Layout style={{ padding: "0 24px 24px" }}>
-          {/* Breadcrumbs */}
-          <Breadcrumbs
-            items={[
-              { title: "Home" },
-              { title: "Dashboard" },
-              { title: "Table" },
-            ]}
-          />
+				<Layout style={{ padding: "0 24px 24px" }}>
+					{/* Breadcrumbs */}
+					<Breadcrumbs items={[{ title: "Home" }, { title: "Dashboard" }]} />
 
-          {/* Main Content */}
-          <Content
-            style={{
-              margin: "24px 16px",
-              padding: 24,
-              minHeight: 280,
-              background: colorBgContainer,
-              borderRadius: borderRadiusLG,
-            }}
-          >
-            {/* Table */}
-            <TableContent />
-          </Content>
-        </Layout>
-      </Layout>
-    </Layout>
-  );
+					{/* Main Content */}
+					<Content>
+						<h1>Selamat Datang</h1>
+					</Content>
+				</Layout>
+			</Layout>
+		</Layout>
+	);
 };
 
 export default Dashboard;

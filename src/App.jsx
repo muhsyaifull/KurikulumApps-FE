@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard"; // Import halaman Dashboard
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import SKSU from "./pages/SKSU";
+import KKNI from "./pages/KKNI";
 
 const App = () => {
 	return (
@@ -27,6 +28,15 @@ const App = () => {
 					</ProtectedRoute>
 				}
 			/>
+			<Route
+				path="/kkni"
+				element={
+					<ProtectedRoute>
+						<KKNI />
+					</ProtectedRoute>
+				}
+			/>
+			<Route path="visi-misi-tujuan" element={<VMT />} />
 		</Routes>
 		// <Routes>
 		//   <Route path="/"/>

@@ -8,16 +8,14 @@ import {
 	Button,
 	message,
 	Select,
+	Space,
 } from "antd";
 import Sidebar from "../components/Elements/Sidebar/Index";
 import Navbar from "../components/Elements/Navbar/Index";
-import Breadcrumbs from "../components/Elements/Breadcrumps";
-import TableContent from "../components/Elements/Table/Index";
-import axiosInstance from "../api/axios";
-import KompetensiField from "../components/Elements/Input/KompetensiField";
 import GeneralLayout from "../components/Layout";
-
-const { Content, Sider } = Layout;
+import KompetensiField from "../components/Elements/Input/KompetensiField";
+import GeneralModal from "../components/Elements/Modal/GeneralModal";
+import axiosInstance from "../api/axios";
 
 const SKSU = () => {
 	const [collapsed, setCollapsed] = useState(false);
@@ -41,20 +39,20 @@ const SKSU = () => {
 				setLoading(false);
 			}
 		};
-
 		fetchData();
 	}, []);
 
 	const saveChanges = async () => {
 		try {
 			const updates = data.map((item) => ({
-				_id: item._id, // ID untuk item yang akan diupdate
+				_id: item._id,
 				profilLulusan: item.profilLulusan,
 				kualifikasi: item.kualifikasi,
 				kategori: item.kategori,
 				kompetensiKerja: item.kompetensiKerja,
 			}));
-			const response = await axiosInstance.patch("/sksu", { updates });
+
+			await axiosInstance.patch("/sksu", { updates });
 			message.success("Perubahan berhasil disimpan!");
 		} catch (error) {
 			message.error(
@@ -75,17 +73,15 @@ const SKSU = () => {
 
 		try {
 			const response = await axiosInstance.post("/sksu", postData);
-			const newData = response.data;
-			setData((prevData) => [...prevData, newData]);
+			setData((prevData) => [...prevData, response.data]);
 			form.resetFields();
 		} catch (error) {
-			setError(error.message);
+			message.error("Terjadi kesalahan: " + error.message);
 		}
 	};
 
 	const handleKompetensiChange = (recordId, kompetensiIndex, newValue) => {
 		const updatedData = [...data];
-
 		const record = updatedData.find((record) => record._id === recordId);
 
 		if (record) {
@@ -119,6 +115,16 @@ const SKSU = () => {
 		setData(updatedData);
 	};
 
+	const handleDeleteSksu = async (id) => {
+		try {
+			await axiosInstance.delete(`/sksu/${id}`);
+			setData((prevData) => prevData.filter((item) => item._id !== id));
+			message.success("Data berhasil dihapus");
+		} catch (error) {
+			message.error("Terjadi kesalahan: " + error.message);
+		}
+	};
+
 	const columns = [
 		{
 			title: "Profil Lulusan",
@@ -149,6 +155,19 @@ const SKSU = () => {
 				/>
 			),
 		},
+		{
+			title: "Action",
+			key: "action",
+			render: (_, record) => (
+				<Space>
+					<GeneralModal
+						title="Delete"
+						handleSubmit={() => handleDeleteSksu(record._id)}>
+						<h2>Apakah anda yakin untuk menghapus?</h2>
+					</GeneralModal>
+				</Space>
+			),
+		},
 	];
 
 	return (
@@ -156,7 +175,7 @@ const SKSU = () => {
 			<Form layout="inline" onFinish={onFinish} form={form}>
 				<Form.Item
 					name="profilLulusan"
-					rules={[{ required: true, message: "Mohon Isikan Profil Lulusan" }]}>
+					rules={[{ required: true, message: "Mohon isikan profil lulusan" }]}>
 					<Input placeholder="Profil Lulusan" />
 				</Form.Item>
 				<Form.Item
@@ -166,7 +185,7 @@ const SKSU = () => {
 				</Form.Item>
 				<Form.Item
 					name="kategori"
-					rules={[{ required: true, message: "Mohon Isikan Kategori" }]}>
+					rules={[{ required: true, message: "Mohon isikan kategori" }]}>
 					<Select placeholder="Pilih Kategori">
 						<Select.Option value="Siap Kerja">Siap Kerja</Select.Option>
 						<Select.Option value="Siap Usaha">Siap Usaha</Select.Option>
@@ -176,27 +195,17 @@ const SKSU = () => {
 					Tambah SKSU
 				</Button>
 			</Form>
+
 			<Table
 				pagination={false}
 				columns={columns}
 				dataSource={data}
 				rowKey="_id"
+				loading={loading}
 			/>
 
 			<Button onClick={saveChanges}>Save Perubahan</Button>
 		</GeneralLayout>
-		// <Layout style={{ minHeight: "100vh" }}>
-		// 	{/* Sidebar */}
-		// 	<Sider trigger={null} collapsible collapsed={collapsed}>
-		// 		<Sidebar collapsed={collapsed} />
-		// 	</Sider>
-
-		// 	<Layout>
-		// 		{/* Navbar */}
-		// 		<Navbar collapsed={collapsed} setCollapsed={setCollapsed} />
-
-		// 	</Layout>
-		// </Layout>
 	);
 };
 

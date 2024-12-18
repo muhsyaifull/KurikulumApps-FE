@@ -9,6 +9,8 @@ import SKSU from "./pages/SKSU";
 import BenchCurriculum from "./pages/analisisKonsideran/editBenchCurriculum"
 import ViewBenchCurriculum from "./pages/analisisKonsideran/viewBenchCurriculum";
 import KKNI from "./pages/KKNI";
+import Ipteks from "./pages/Ipteks";
+import VMT from "./pages/VMT";
 
 const App = () => {
 	return (
@@ -55,6 +57,14 @@ const App = () => {
 				}
 			/>
 			<Route path="visi-misi-tujuan" element={<VMT />} />
+			<Route
+				path="/Ipteks"
+				element={
+					<ProtectedRoute>
+						<Ipteks />
+					</ProtectedRoute>
+				}
+			/>
 		</Routes>
 	);
 };

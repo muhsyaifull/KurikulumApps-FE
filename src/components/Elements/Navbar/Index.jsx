@@ -62,7 +62,7 @@ const Navbar = ({ collapsed, setCollapsed }) => {
 			/>
 
 			{/* User Dropdown */}
-			<Dropdown overlay={userPanel} placement="bottomRight" trigger={["click"]}>
+			<Dropdown menu={userPanel} placement="bottomRight" trigger={["click"]}>
 				<Button
 					type="text"
 					icon={<UserOutlined />}

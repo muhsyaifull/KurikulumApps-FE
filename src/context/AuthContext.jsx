@@ -12,7 +12,6 @@ export const AuthProvider = ({ children }) => {
 	// Memuat token dan user dari localStorage saat aplikasi pertama kali dimuat
 	useEffect(() => {
 		const storedToken = localStorage.getItem("token");
-		console.log(storedToken);
 
 		if (storedToken) {
 			try {

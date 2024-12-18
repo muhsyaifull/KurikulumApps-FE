@@ -23,8 +23,8 @@ const Sidebar = ({ collapsed }) => {
 			children: [
 				{ key: "sksu", label: "SKSU", icon: <VideoCameraOutlined /> },
 				{
-					key: "bench-kurikulum",
-					label: "Bench Kurikulum",
+					key: "bench-curriculum",
+					label: "Bench Curriculum",
 					icon: <UploadOutlined />,
 				},
 				{ key: "ipteks", label: "Ipteks", icon: <UserOutlined /> },

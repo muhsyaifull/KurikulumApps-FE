@@ -75,6 +75,7 @@ const ViewBenchCurriculum = () => {
       key: "aksi",
       render: (_, record) => (
         <>
+          {/* Tombol Hapus */}
           <Popconfirm
             title="Apakah Anda yakin ingin menghapus data ini?"
             onConfirm={() => handleDelete(record._id)}

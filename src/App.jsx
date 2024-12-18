@@ -8,6 +8,7 @@ import ProtectedRoute from "./pages/ProtectedRoute";
 import SKSU from "./pages/SKSU";
 import BenchCurriculum from "./pages/analisisKonsideran/editBenchCurriculum"
 import ViewBenchCurriculum from "./pages/analisisKonsideran/viewBenchCurriculum";
+import KKNI from "./pages/KKNI";
 
 const App = () => {
 	return (
@@ -45,6 +46,15 @@ const App = () => {
 					</ProtectedRoute>
 				}
 			/>
+			<Route
+				path="/kkni"
+				element={
+					<ProtectedRoute>
+						<KKNI />
+					</ProtectedRoute>
+				}
+			/>
+			<Route path="visi-misi-tujuan" element={<VMT />} />
 		</Routes>
 	);
 };

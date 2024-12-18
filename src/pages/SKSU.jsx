@@ -96,6 +96,17 @@ const SKSU = () => {
 		setData(updatedData);
 	};
 
+	const handleDeleteKompetensi = (recordId, kompetensiIndex) => {
+		const updatedData = [...data];
+		const record = updatedData.find((record) => record._id === recordId);
+
+		if (record && record.kompetensiKerja) {
+			record.kompetensiKerja.splice(kompetensiIndex, 1);
+		}
+
+		setData(updatedData);
+	};
+
 	const addKompetensi = (id, newKompetensi) => {
 		if (!newKompetensi) {
 			message.error("Mohon masukkan kompetensi");
@@ -151,6 +162,7 @@ const SKSU = () => {
 					onChange={(kompetensiChange, index) =>
 						handleKompetensiChange(record._id, index, kompetensiChange)
 					}
+					onRemove={(index) => handleDeleteKompetensi(record._id, index)}
 					onAdd={(newKompetensi) => addKompetensi(record._id, newKompetensi)}
 				/>
 			),

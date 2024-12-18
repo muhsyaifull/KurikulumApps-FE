@@ -7,6 +7,8 @@ import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import SKSU from "./pages/SKSU";
 import KKNI from "./pages/KKNI";
+import VMT from "./pages/VMT";
+import RelationMatrix from "./pages/MatriksCPLPengetahuan";
 
 const App = () => {
 	return (
@@ -36,7 +38,15 @@ const App = () => {
 					</ProtectedRoute>
 				}
 			/>
-			<Route path="visi-misi-tujuan" element={<VMT />} />
+			<Route
+				path="/visi-misi-tujuan"
+				element={
+					<ProtectedRoute>
+						<VMT />
+					</ProtectedRoute>
+				}
+			/>
+			<Route path="/matriks" element={<RelationMatrix />} />
 		</Routes>
 		// <Routes>
 		//   <Route path="/"/>

@@ -36,7 +36,11 @@ const Sidebar = ({ collapsed }) => {
 			icon: <VideoCameraOutlined />,
 			label: "Tahap 2",
 			children: [
-				{ key: "tahap2-opt1", label: "Option 1", icon: <UploadOutlined /> },
+				{
+					key: "visi-misi-tujuan",
+					label: "VMT",
+					icon: <UploadOutlined />,
+				},
 				{ key: "tahap2-opt2", label: "Option 2", icon: <UserOutlined /> },
 			],
 		},

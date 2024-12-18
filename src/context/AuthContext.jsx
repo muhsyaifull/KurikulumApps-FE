@@ -39,11 +39,9 @@ export const AuthProvider = ({ children }) => {
 			const response = await axios.post("/auth/login", { username, password });
 			const { accessToken, user: userData } = response.data;
 
-			// Set token dan user ke state setelah login sukses
 			setToken(accessToken);
 			setUser(userData);
 
-			// Simpan token ke localStorage agar tetap ada saat refresh
 			localStorage.setItem("token", accessToken);
 
 			return { success: true };

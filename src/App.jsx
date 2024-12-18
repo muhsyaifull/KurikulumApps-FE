@@ -10,6 +10,7 @@ import BenchCurriculum from "./pages/analisisKonsideran/editBenchCurriculum"
 import ViewBenchCurriculum from "./pages/analisisKonsideran/viewBenchCurriculum";
 import KKNI from "./pages/KKNI";
 import Ipteks from "./pages/Ipteks";
+import VMT from "./pages/VMT";
 
 const App = () => {
 	return (

@@ -6,11 +6,13 @@ import Dashboard from "./pages/Dashboard"; // Import halaman Dashboard
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import SKSU from "./pages/SKSU";
-import BenchCurriculum from "./pages/analisisKonsideran/editBenchCurriculum"
+import BenchCurriculum from "./pages/analisisKonsideran/editBenchCurriculum";
 import ViewBenchCurriculum from "./pages/analisisKonsideran/viewBenchCurriculum";
 import KKNI from "./pages/KKNI";
 import Ipteks from "./pages/Ipteks";
 import VMT from "./pages/VMT";
+import VMT from "./pages/VMT";
+import RelationMatrix from "./pages/MatriksCPLPengetahuan";
 
 const App = () => {
 	return (
@@ -56,7 +58,15 @@ const App = () => {
 					</ProtectedRoute>
 				}
 			/>
-			<Route path="visi-misi-tujuan" element={<VMT />} />
+			<Route
+				path="/visi-misi-tujuan"
+				element={
+					<ProtectedRoute>
+						<VMT />
+					</ProtectedRoute>
+				}
+			/>
+			<Route path="/matriks" element={<RelationMatrix />} />
 			<Route
 				path="/Ipteks"
 				element={

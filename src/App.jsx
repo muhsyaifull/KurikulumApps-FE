@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard"; // Import halaman Dashboard
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import SKSU from "./pages/SKSU";
+import Ipteks from "./pages/Ipteks";
 
 const App = () => {
 	return (
@@ -24,6 +25,14 @@ const App = () => {
 				element={
 					<ProtectedRoute>
 						<SKSU />
+					</ProtectedRoute>
+				}
+			/>
+			<Route
+				path="/Ipteks"
+				element={
+					<ProtectedRoute>
+						<Ipteks />
 					</ProtectedRoute>
 				}
 			/>
